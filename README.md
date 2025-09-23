@@ -1,5 +1,7 @@
 # Cuisine Crafter (Streamlit + LangChain)
 
+![Cuisine Crafter screenshot](assets/screenshot.png)
+
 Generate a fancy restaurant name and a menu from a chosen cuisine using LangChain and OpenAI. Built with Streamlit.
 
 ## Features
