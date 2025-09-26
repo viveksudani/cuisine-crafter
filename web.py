@@ -19,12 +19,12 @@ st.write(
 )
 
 
-def create_model():
-    """Create and return the chat model using OpenAI provider.
+def create_model(provider: str, model_name: str):
+    """Create and return a chat model for the selected provider and model.
 
-    Requires OPENAI_API_KEY in environment.
+    The appropriate API key must be present in the environment.
     """
-    return init_chat_model("gpt-4o-mini", model_provider="openai")
+    return init_chat_model(model_name, model_provider=provider)
 
 
 def build_chain(model):
@@ -84,11 +84,29 @@ with st.sidebar:
     diet_choice = st.radio("Diet preference", options=("Veg", "Non-Veg"), index=0, horizontal=True)
     generate = st.button("Generate", type="primary")
 
+    st.divider()
+    st.header("Model")
+    # Popular provider/model options. Labels are user-friendly; values map to provider+model.
+    model_options = [
+        {"label": "OpenAI — GPT-4o-mini", "provider": "openai", "model": "gpt-4o-mini", "env": "OPENAI_API_KEY"},
+        {"label": "OpenAI — GPT-4o", "provider": "openai", "model": "gpt-4o", "env": "OPENAI_API_KEY"},
+        {"label": "OpenAI — o3-mini", "provider": "openai", "model": "o3-mini", "env": "OPENAI_API_KEY"},
+        {"label": "Anthropic — Claude 3.5 Sonnet", "provider": "anthropic", "model": "claude-3-5-sonnet-20240620", "env": "ANTHROPIC_API_KEY"},
+        {"label": "Google — Gemini 1.5 Flash", "provider": "google", "model": "gemini-1.5-flash", "env": "GOOGLE_API_KEY"},
+        {"label": "Groq — Llama-3.1 70B", "provider": "groq", "model": "llama-3.1-70b-versatile", "env": "GROQ_API_KEY"},
+        {"label": "Mistral — Mistral Large", "provider": "mistralai", "model": "mistral-large-latest", "env": "MISTRAL_API_KEY"},
+        {"label": "OpenRouter — Claude 3.5 Sonnet", "provider": "openrouter", "model": "anthropic/claude-3.5-sonnet", "env": "OPENROUTER_API_KEY"},
+    ]
+    model_labels = [m["label"] for m in model_options]
+    selected_label = st.selectbox("Choose model", options=model_labels, index=0)
+    selected_model_cfg = next(m for m in model_options if m["label"] == selected_label)
 
-api_key_present = bool(os.getenv("OPENAI_API_KEY"))
+
+required_env_var = selected_model_cfg["env"]
+api_key_present = bool(os.getenv(required_env_var))
 if not api_key_present:
     st.warning(
-        "OPENAI_API_KEY is not set. Add it to a .env file or your environment to run the app."
+        f"{required_env_var} is not set. Add it to a .env file or your environment to run the app."
     )
 
 
@@ -100,7 +118,7 @@ if generate:
         st.stop()
 
     try:
-        model = create_model()
+        model = create_model(selected_model_cfg["provider"], selected_model_cfg["model"])
         name_chain, full_chain = build_chain(model)
 
         with st.spinner("Generating restaurant name..."):
