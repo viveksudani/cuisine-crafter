@@ -1,8 +1,16 @@
 # Cuisine Crafter (Streamlit + LangChain)
 
-![Cuisine Crafter screenshot](assets/screenshot.png)
-
 Generate a fancy restaurant name and a menu from a chosen cuisine using LangChain, with a sidebar selector to choose among popular LLM providers/models. Built with Streamlit.
+
+![Cuisine Crafter screenshot](assets/screenshot.png)
+\
+The main screen showing cuisine selection, diet preference, and generated results.
+
+![Model selector screenshot](assets/Screenshot2.png)
+\
+The sidebar model selector lets you choose among popular providers/models; the app validates the corresponding API key automatically.
+
+
 
 ## Features
 - Choose a cuisine or type your own
