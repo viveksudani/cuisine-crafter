@@ -3,4 +3,18 @@ streamlit==1.49.1
 langchain==0.3.27
 langchain-core==0.3.76
 langchain-openai==0.3.33
-openai==1.107.1
+# Optional provider integrations (install only if using these providers/models):
+# Anthropic (Claude):
+# langchain-anthropic==0.3.20
+#
+# Google (Gemini):
+# langchain-google-genai==2.1.12
+#
+# Groq (Llama families on Groq):
+# langchain-groq==0.3.8
+#
+# Mistral:
+# langchain-mistralai==0.2.12
+#
+# OpenRouter:
+# langchain-openrouter==0.0.1
